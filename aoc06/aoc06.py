@@ -33,7 +33,7 @@ def part1(data):
         if (guardx < 0) or (guardy < 0) or (guardx > x) or (guardy > y):
             break
         positions.add((guardx, guardy))
-    return len(positions)
+    return len(positions), positions
         
 def check_cycle(data):
     dirx = 0
@@ -57,19 +57,17 @@ def check_cycle(data):
         
 
 
-def part2(data):
+def part2(data, positions):
     """Solve part 2"""
     obstacles, guardx, guardy, x, y = data
     res = 0
-    for i in tqdm(range(x)):
-    # for i in range(x):
-        for j in range(y):
-            if ((i,j) in obstacles) or (i == guardx and j == guardy):
+    for position in tqdm(positions):
+        if position == (guardx, guardy):
                 continue
-            obstacles.add((i,j))
-            if check_cycle((obstacles, guardx, guardy, x, y)):
-                res += 1
-            obstacles.remove((i,j))
+        obstacles.add(position)
+        if check_cycle((obstacles, guardx, guardy, x, y)):
+            res += 1
+        obstacles.remove(position)
     return res
 
 
@@ -78,9 +76,8 @@ if __name__ == "__main__":
    for path in sys.argv[1:]:
         print(f"{path}:")
         puzzle_input = pathlib.Path(path).read_text().strip()
-        # puzzle_input = pathlib.Path(r"C:\Users\koroc\Documents\AoC\aoc06\test.txt").read_text().strip()
         data = process(puzzle_input)
-        #solution1 = part1(data)
-        solution2 = part2(data)
-        #print("PART1:", solution1)
+        solution1, positions = part1(data)
+        solution2 = part2(data, positions)
+        print("PART1:", solution1)
         print("PART2:", solution2)
