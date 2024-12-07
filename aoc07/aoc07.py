@@ -31,6 +31,8 @@ def part1(data):
                     res += n[j+1]
                 else:
                     res *= n[j+1]
+                if res > s:
+                    break
             if res == s:
                 total += s
                 miss = False
@@ -45,8 +47,6 @@ def part1(data):
 def part2(sum, num):
     """Solve part 2"""
     total = 0
-    print(sum)
-    print(num)
     for s, n in zip(sum, num):
         for i in range(3**(len(n)-1)):
             res = n[0]
@@ -59,6 +59,8 @@ def part2(sum, num):
                     res *= n[j+1]
                 else: 
                     res = int(str(res) + str(n[j+1]))
+                if res > s:
+                    break
             if res == s:
                 total += s
                 break
