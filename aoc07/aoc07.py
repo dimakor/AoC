@@ -1,5 +1,6 @@
 import pathlib
 import sys
+from math import log10
 from rich import print
 
 def process(puzzle_input):
@@ -42,7 +43,8 @@ def part1(data):
             n2.append(n)
     return total, s2, n2
 
-
+def concat_ints(x, y):
+    return x * (10 ** (int(log10(y)) + 1)) + y
 
 def part2(sum, num):
     """Solve part 2"""
@@ -58,7 +60,7 @@ def part2(sum, num):
                 elif mm == 1:
                     res *= n[j+1]
                 else: 
-                    res = int(str(res) + str(n[j+1]))
+                    res = concat_ints(res,n[j+1])
                 if res > s:
                     break
             if res == s:
