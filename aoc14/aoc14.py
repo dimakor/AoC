@@ -26,15 +26,16 @@ def part1(data):
     QX = (X-1) / 2
     QY = (Y-1) / 2
     SECONDS = 100
-    q1 = q2 = q3 = q4 = 0
     P, V = data
+    SAFETY = []
     for i in range(10000):
-        image_array = np.zeros((X+5, Y+5, 3), dtype=np.uint8)
+        #image_array = np.zeros((X+5, Y+5, 3), dtype=np.uint8)
+        q1 = q2 = q3 = q4 = 0
         for p, v in zip(P, V):
             x = (p[0] + v[0] * i) % X
             y = (p[1] + v[1] * i) % Y
             # print("X, Y:", x, y)
-            image_array[y, x] = 255
+            #image_array[y, x] = 255
             if x < QX and y < QY:
                 q1 += 1
             if x > QX and y < QY:
@@ -43,14 +44,19 @@ def part1(data):
                 q3 += 1
             if x > QX and y > QY:
                 q4 += 1
-        image = Image.fromarray(image_array)
-        image.save('img\output'+str(i)+'.png')  # Save the image
-    return q1 * q2 * q3 * q4
+        #image = Image.fromarray(image_array)
+        #image.save('img\output'+str(i)+'.png')  # Save the image
+        SAFETY.append((q1 * q2 * q3 * q4, i))
+    return q1 * q2 * q3 * q4, SAFETY
 
 
 
 def part2(data):
     """Solve part 2"""
+    data.sort(key = lambda a: a[0])
+    for i in range(10):
+        print(data[i])
+    return data[0][1]
 
 
 if __name__ == "__main__":
@@ -58,7 +64,7 @@ if __name__ == "__main__":
         print(f"{path}:")
         puzzle_input = pathlib.Path(path).read_text().strip()
         data = process(puzzle_input)
-        solution1 = part1(data)
-        solution2 = part2(data)
+        solution1, SAFETY = part1(data)
+        solution2 = part2(SAFETY)
         print("PART1:", solution1)
         print("PART2:", solution2)
