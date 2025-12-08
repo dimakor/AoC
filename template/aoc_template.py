@@ -18,7 +18,9 @@ if __name__ == "__main__":
         print(f"{path}:")
         puzzle_input = pathlib.Path(path).read_text().strip()
         data = process(puzzle_input)
+
         solution1 = part1(data)
-        solution2 = part2(data)
         print("PART1:", solution1)
+
+        solution2 = part2(data)
         print("PART2:", solution2)
